@@ -9,6 +9,7 @@
 // @grant       GM_registerMenuCommand
 // @grant       GM_getValue
 // @grant       GM_setValue
+// @run-at      document-start
 // @downloadURL https://gitee.com/maoxuner/keepitanonymous/raw/main/keepitanonymous.user.js
 // @homepageURL https://gitee.com/maoxuner
 // ==/UserScript==
