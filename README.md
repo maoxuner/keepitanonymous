@@ -2,7 +2,7 @@
 
 ## 简介
 
-自动隐藏浏览器自动填充的用户账号信息，防止录屏、截图时泄露隐私。
+自动隐藏浏览器自动填充的用户账号信息，防止录屏、截图时泄露隐私。[安装脚本](https://gitee.com/maoxuner/keepitanonymous/raw/main/keepitanonymous.user.js)
 
 **插件方案并不完美，最佳方案是关闭浏览器自动填充功能。**
 

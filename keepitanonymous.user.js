@@ -4,11 +4,13 @@
 // @description 隐藏页面上的账号信息，如：用户名，手机，邮箱
 // @namespace   maoxuner.gitee.io
 // @author      maoxuner
-// @version     0.1.0
+// @version     0.1.1
 // @match       *://*/*
 // @grant       GM_registerMenuCommand
 // @grant       GM_getValue
 // @grant       GM_setValue
+// @downloadURL https://gitee.com/maoxuner/keepitanonymous/raw/main/keepitanonymous.user.js
+// @homepageURL https://gitee.com/maoxuner
 // ==/UserScript==
 
 (function (window) {
