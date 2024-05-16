@@ -4,7 +4,7 @@
 // @description 隐藏页面上的账号信息，如：用户名，手机，邮箱
 // @namespace   maoxuner.gitee.io
 // @author      maoxuner
-// @version     0.1.2
+// @version     0.2.0
 // @license     GPLv3
 // @match       *://*/*
 // @grant       GM_registerMenuCommand
@@ -49,12 +49,6 @@
     return false
   }
 
-  // 双击切换输入框文字显隐
-  window.document.addEventListener('dblclick', function ({ target }) {
-    'INPUT' === target.nodeName && switchInputText(target)
-  })
-
-
   /* laravel        自动隐藏输入框文字        hohai */
 
   // 判断是否是隐私信息输入框
@@ -81,7 +75,7 @@
   }
 
   // 注册菜单
-  const TITLE_MESSAGE = '无法作用于iframe页面'
+  const TITLE_MESSAGE = '无法作用于嵌套页面'
   GM_registerMenuCommand('显示所有', showAllInputText, { title: TITLE_MESSAGE })
   GM_registerMenuCommand('隐藏所有', hideAllInputText, { title: TITLE_MESSAGE })
 
@@ -108,7 +102,7 @@
         GM_registerMenuCommand('切换自动隐藏模式（当前：普通）', switchAutoHideInputText, { id, title: '页面加载完成后立即隐藏', autoClose: false })
         break
       case MODE_ON2:
-        GM_registerMenuCommand('切换自动隐藏模式（当前：增强）', switchAutoHideInputText, { id, title: '页面加载完成后持续隐藏', autoClose: false })
+        GM_registerMenuCommand('切换自动隐藏模式（当前：增强）', switchAutoHideInputText, { id, title: '页面加载完成后持续隐藏（适用于嵌套页面）', autoClose: false })
         break
     }
   }
@@ -124,7 +118,7 @@
       let times = 0
       const id = setInterval(() => {
         times++
-        (hideAllInputText() || times > 50) && clearInterval(id)
+        (hideAllInputText() || times >= 50) && clearInterval(id)
       }, 100)
       break
   }
