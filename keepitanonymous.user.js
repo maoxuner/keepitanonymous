@@ -4,9 +4,10 @@
 // @description 隐藏页面上的账号信息，如：用户名，手机，邮箱
 // @namespace   maoxuner.gitee.io
 // @author      maoxuner
-// @version     0.2.0
+// @version     0.3.0
 // @license     GPLv3
 // @match       *://*/*
+// @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
 // @grant       GM_getValue
 // @grant       GM_setValue
@@ -20,27 +21,45 @@
 
   /* no89757        切换输入框文字显隐        aptx4869 */
 
+  const className = 'password-dots-regular'
+  const styleElement = GM_addStyle(`
+    @font-face {
+      font-family: "Password Dots Regular";
+      src: url("https://db.onlinewebfonts.com/t/2767b18dd6a611e3ce83d0bfe4729cb4.eot");
+      src: url("https://db.onlinewebfonts.com/t/2767b18dd6a611e3ce83d0bfe4729cb4.eot?#iefix")format("embedded-opentype"),
+      url("https://db.onlinewebfonts.com/t/2767b18dd6a611e3ce83d0bfe4729cb4.woff2")format("woff2"),
+      url("https://db.onlinewebfonts.com/t/2767b18dd6a611e3ce83d0bfe4729cb4.woff")format("woff"),
+      url("https://db.onlinewebfonts.com/t/2767b18dd6a611e3ce83d0bfe4729cb4.ttf")format("truetype"),
+      url("https://db.onlinewebfonts.com/t/2767b18dd6a611e3ce83d0bfe4729cb4.svg#Password Dots Regular")format("svg");
+    }
+    input.password-dots-regular {
+      font-family: "Password Dots Regular";
+    }
+    input.password-dots-regular::placeholder {
+      font-family: none;
+    }
+  `)
+  window.document.querySelector('head').appendChild(styleElement)
+
   // 切换输入框文字显隐
   const STATE_SHOW = 1
   const STATE_HIDE = 0
   function switchInputText(element, state = null) {
-    const identifier = 'ttplayer'
-
-    if (element.hasAttribute(identifier)) {
+    if (element.classList.contains(className)) {
       if (STATE_HIDE !== state) {  // 非强制隐藏，则显示
         // 显示输入框文字
-        element.setAttribute('type', 'text')
-        element.setAttribute('placeholder', element.getAttribute(identifier))
-        element.removeAttribute(identifier)
+        if (1 === element.classList.length) {
+          element.removeAttribute('class')
+        } else {
+          element.classList.remove(className)
+        }
 
         return true
       }
     } else {
       if (STATE_SHOW !== state) {  // 非强制显示，则隐藏
         // 隐藏输入框文字
-        element.setAttribute(identifier, element.getAttribute('placeholder') || '')
-        element.setAttribute('type', 'password')
-        element.setAttribute('placeholder', 'Text Protected')
+        element.classList.add(className)
 
         return true
       }
@@ -53,15 +72,15 @@
 
   // 判断是否是隐私信息输入框
   function isPrivacyInput(element) {
-    const identifier = ['username', 'user', 'name', 'email', 'mail', 'phone', 'login', 'account']
+    const identifier = ['username', 'user', 'name', 'email', 'mail', 'phone', 'telephone', 'tel', 'mobilephone', 'mobile', 'login', 'account']
 
-    return 'text' === element.type && (element.name && identifier.includes(element.name) || 'username' === element.autocomplete) || 'email' === element.type
+    return 'text' === element.type && (element.name && identifier.includes(element.name) || 'username' === element.autocomplete) || 'email' === element.type || 'tel' === element.type
   }
 
   // 显示所有
   function showAllInputText() {
     let ret = 0
-    window.document.querySelectorAll('input[type=password]')
+    window.document.querySelectorAll('input.' + className)
       .forEach(element => switchInputText(element, STATE_SHOW) && ret++)
     return ret
   }
